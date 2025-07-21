@@ -61,7 +61,8 @@ class VideoRealWaifuUpScaler(object):
         if_audio=objVideoreader.audio
         if(if_audio):
             tmp_audio_path="%s.m4a"%inp_path
-            objVideoreader.audio.write_audiofile(tmp_audio_path,codec="aac")
+            if not os.path.exists(tmp_audio_path):
+                objVideoreader.audio.write_audiofile(tmp_audio_path,codec="aac")
             writer = FFMPEG_VideoWriter(opt_path, (w * self.scale, h * self.scale), fps, ffmpeg_params=self.encode_params,audiofile=tmp_audio_path)  # slower#medium
         else:
             writer = FFMPEG_VideoWriter(opt_path, (w * self.scale, h * self.scale), fps, ffmpeg_params=self.encode_params)  # slower#medium
