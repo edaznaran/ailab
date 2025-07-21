@@ -1,45 +1,45 @@
 ##########################################
-#################通用设置#################
+#################CONFIGURACIÓN GENERAL#################
 ##########################################
-#超分倍率
+#Multiplicador de superresolución
 scale=2
-#参数路径，可更换
-#降噪版(denoise)：如果原片噪声多，压得烂，推荐使用；目前2倍模型支持了3个降噪等级；
-#无降噪版(no-denoise)：如果原片噪声不多，压得还行，但是想提高分辨率/清晰度/做通用性的增强、修复处理，推荐使用；
-#保守版(conservative)：如果你担心丢失纹理，担心画风被改变，担心颜色被增强，总之就是各种担心AI会留下浓重的处理痕迹，推荐使用该版本。
+#Ruta de parámetros, se puede cambiar
+#Versión con reducción de ruido (denoise): Si el original tiene mucho ruido y está mal comprimido, se recomienda usar; actualmente el modelo 2x soporta 3 niveles de reducción de ruido;
+#Versión sin reducción de ruido (no-denoise): Si el original no tiene mucho ruido y está bien comprimido, pero quieres aumentar la resolución/nitidez/hacer mejoras generales de restauración, se recomienda usar;
+#Versión conservadora (conservative): Si te preocupa perder texturas, cambiar el estilo artístico, realzar colores, en resumen, si tienes varias preocupaciones sobre que la IA deje marcas evidentes de procesamiento, se recomienda usar esta versión.
 model_path2 = "weights_v3/up2x-latest-denoise3x.pth"
 model_path3 = "weights_v3/up3x-latest-denoise3x.pth"
 model_path4 = "weights_v3/up4x-latest-denoise3x.pth"
-#half:早期显卡开半精度不会提速，但是开半精度可以省显存；>=20系N卡无脑选True即可
+#half: Las tarjetas gráficas tempranas no aceleran con media precisión, pero la media precisión puede ahorrar VRAM; para tarjetas N >=serie 20, elegir True sin pensar
 half=True
-#tile越大，越省显存，速度越慢
+#tile: mientras más grande, ahorra más VRAM pero es más lento
 tile=5
-#cache_mode:如果显存在爆炸的边界，还可以挣扎，选0或1(都是无损)，1比0耗时增长15%，更省显存；如果显存显然无法挣扎（比如只有2G显存想超>=720P,或者输入超大分辨率的图（例如4K）），选2或3；2耗时+25%，仅在有景深虚化的图里增加5%误差；3耗时增加150%但无损
+#cache_mode: Si la VRAM está al límite de explotar, aún puedes luchar, elige 0 o 1 (ambos sin pérdidas), 1 incrementa el tiempo 15% comparado con 0, pero ahorra más VRAM; si la VRAM claramente no puede luchar (por ejemplo, solo 2G VRAM queriendo hacer super resolución >=720P, o entrada de resolución muy alta (ej. 4K)), elige 2 o 3; 2 tiempo +25%, solo agrega 5% de error en imágenes con desenfoque de profundidad de campo; 3 incrementa tiempo 150% pero sin pérdidas
 cache_mode=1
-#alpha越大AI修复程度、痕迹越小，越模糊；alpha越小处理越烈，越锐化，色偏（对比度、饱和度增强）越大
-# #可调区间：(0.75,1.3)，默认为1不调整
+#alpha: mientras más pequeño, menor grado de restauración de IA y marcas, más borroso; mientras más grande alpha, procesamiento más intenso, más nitidez, mayor desviación de color (contraste, saturación mejorados)
+#Rango ajustable: (0.7,1.3), por defecto 1 sin ajuste
 alpha=1
-#超分模式，视频or图像文件夹
+#Modo de superresolución, video o carpeta de imágenes
 mode="image"#video#image
 ############################################
-#################超图像设置#################
+#################CONFIGURACIÓN DE IMÁGENES#################
 ############################################
-#0代表卡号，多卡的话可以写不同config并行开，显存多利用率打不满的话一张卡也可以开多个
-#如果要用CPU跑，""里填cpu
+#0 representa el número de tarjeta, para múltiples tarjetas se pueden escribir diferentes configs en paralelo, si hay mucha VRAM pero la utilización no está llena, una tarjeta también puede abrir múltiples
+#Si quieres usar CPU, llena "cpu" entre las comillas
 device="cuda:0"
-input_dir="input_dir1"#输入图像路径
-output_dir="output_dir"#超分图像输出路径
+input_dir="input_dir1"#Ruta de imágenes de entrada
+output_dir="output_dir"#Ruta de salida de imágenes con superresolución
 ############################################
-#################超视频设置#################
-
+#################CONFIGURACIÓN DE VIDEO#################
+############################################
 inp_path=r"C:\Users\liujing\Desktop\Z\input.mov"
 opt_path=r"C:\Users\liujing\Desktop\Z\output.mp4"
-#线程数：量力而行，填小了利用率低，填大了爆显存
+#Número de hilos: hazlo según tu capacidad, si pones muy poco la utilización será baja, si pones mucho explotará la VRAM
 nt=2
-#显卡数
+#Número de GPUs
 n_gpu=1
-#别乱动
+#No tocar
 p_sleep=(0.005,0.012)
 decode_sleep=0.002
-#编码参数，不懂别乱动;通俗来讲，crf变低=高码率高质量，slower=低编码速度高质量+更吃CPU，CPU不够应该调低级别，比如slow，medium，fast，faster
+#Parámetros de codificación, no tocar si no entiendes; en términos simples, crf más bajo = alta tasa de bits y alta calidad, slower = baja velocidad de codificación y alta calidad + más demandante de CPU, si la CPU no es suficiente deberías bajar el nivel, por ejemplo slow, medium, fast, faster
 encode_params=['-crf', '21', '-preset', 'medium']
