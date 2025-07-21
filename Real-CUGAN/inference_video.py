@@ -109,8 +109,8 @@ class VideoRealWaifuUpScaler(object):
         print(inp_path,"done,time cost:",t1 - t0)
 
 if __name__ == '__main__':
-    from config import half, model_path2, model_path3, model_path4, tile, scale, device, encode_params, p_sleep, decode_sleep, nt, n_gpu,cache_mode,alpha
-    inp_path = "432126871-clip6s.mp4"
-    opt_path = "432126871-clip6s-2x.mp4"
+    from config import half, model_path2, model_path3, model_path4, tile, scale, device, encode_params, p_sleep, decode_sleep, nt, n_gpu,cache_mode,alpha, inp_path, opt_path
+    # inp_path = "432126871-clip6s.mp4"
+    # opt_path = "432126871-clip6s-2x.mp4"
     video_upscaler=VideoRealWaifuUpScaler(nt,n_gpu,scale,half,tile,cache_mode,alpha,p_sleep,decode_sleep,encode_params)
     video_upscaler(inp_path,opt_path)
